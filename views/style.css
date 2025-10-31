@@ -1,0 +1,246 @@
+/* ===== Global Styles ===== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #efeaea;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+/* ===== Container ===== */
+.container {
+    padding: 40px 50px;
+    border-radius: 25px;
+    box-shadow: 0 -5px 30px 10px rgba(25, 237, 96, 0.37);
+    max-width: 850px;
+    width: 100%;
+    text-align: center;
+    animation: fadeIn 0.6s ease-in-out;
+    background-color: #e0d2b3;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+    font-size: 28px;
+    text-decoration: underline;
+    color: #525050;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+/* ===== Form Styles ===== */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    text-align: left;
+    background-color: #e0d2b3 ;
+}
+
+label {
+    font-weight: 600;
+    color: #525050;
+    margin-bottom: 1px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+}
+
+input,#membershipType {
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    width: 100%;
+    background-color: #ddd6d6;;
+}
+
+input:focus {
+    border-color: rgba(25, 237, 96, 0.37);
+    box-shadow: 0 0 4px 3px rgba(25, 237, 96, 0.37);
+    outline: none;
+}
+
+button {
+    background: #33d263;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+}
+
+button:hover {
+    background: #4d854f;
+}
+
+/* ===== Table Styles ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+thead {
+    background: #0078ff;
+    color: white;
+}
+
+th, td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 1px solid #0078ff;
+}
+
+tbody tr:hover {
+    background-color: #f7faff;
+}
+
+th {
+    font-size: 15px;
+    letter-spacing: 0.5px;
+}
+
+td {
+    font-size: 14px;
+}
+
+/* ===== Links ===== */
+.link {
+    display: inline-block;
+    margin-top: 25px;
+    color: #0078ff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.link:hover {
+    color: #005ecc;
+    text-decoration: underline;
+}
+
+/* ===== Success Page Styles ===== */
+.success-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    text-align: center;
+    margin-top: 150px;
+}
+
+.success-container h1 {
+    color: #28a745;
+    font-size: 26px;
+    margin-top: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* ===== Animated Checkmark ===== */
+.checkmark {
+    width: 80px;
+    height: 80px;
+    display: inline-block;
+}
+
+.checkmark__circle {
+    stroke: #28a745;
+    stroke-width: 3;
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-linecap: round;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark__check {
+    transform-origin: 50% 50%;
+    stroke: #28a745;
+    stroke-width: 3;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    stroke-linecap: round;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+}
+
+/* ===== Animations ===== */
+@keyframes stroke {
+100% {
+    stroke-dashoffset: 0;
+}
+}
+
+@keyframes scale {
+0%, 100% {
+    transform: none;
+    }
+    50% {
+    transform: scale(1.1);
+    }
+}
+
+.checkmark svg {
+animation: scale 0.3s ease-in-out 0.9s both;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .container {
+    padding: 25px;
+    }
+
+    table {
+    font-size: 13px;
+    }
+
+    th, td {
+    padding: 10px;
+    }
+}
+
+td form {
+    display: inline; 
+    margin: 0;
+}
+
+td button {
+    padding: 5px 10px;
+    font-size: 13px;
+}
+
+#searchForm {
+    margin-bottom: 15px;
+    display: flex;
+    gap: 8px;
+    justify-content: flex-start;
+}
+
+#reg{
+    margin-top: 130px;
+}
+
+#log{
+    margin-top: 100px;
+}
