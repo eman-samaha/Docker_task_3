@@ -1,7 +1,5 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const Member = require("./models/memberModel"); 
-const User = require("./models/userModel");
 const path = require("path");
 const session = require("express-session");
 const bcrypt = require("bcrypt");
@@ -15,26 +13,36 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "views"))); // CSS
 app.set("view engine", "ejs");
 
-// ===== Session setup =====
-app.use(session({
-  secret: "yourSecretKey", 
-  resave: false,
-  saveUninitialized: false
-}));
-
 // ===== Connect to MongoDB =====
 mongoose
-  .connect("mongodb://localhost:27017/GymDB")
+  .connect("mongodb://mongo:27017/GymDB")
   .then(() => {
     app.listen(port, () => console.log(`✅ Server running at: http://localhost:${port}/`));
-    console.log("💾 Connected to MongoDB locally");
+    console.log("💾 Connected to MongoDB inside Docker");
   })
   .catch((err) => console.error("Connection error:", err));
 
-function isAuthenticated(req, res, next) {
-  if (req.session.userId) return next();
-  res.redirect("/login");
-}
+// ===== Schemas & Models =====
+const memberSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  age: { type: Number, required: true },
+  phone: { type: String, required: true },
+  membershipType: { type: String, required: true },
+  startDate: { type: Date, required: true },
+});
+const Member = mongoose.model("Member", memberSchema);
+
+const userSchema = new mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true }
+});
+userSchema.pre("save", async function(next) {
+  if (this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+  next();
+});
+const User = mongoose.model("User", userSchema);
 
 // ===== Routes =====
 
@@ -44,79 +52,10 @@ app.get("/", (req, res) => res.render("index"));
 // Success page
 app.get("/success.html", (req, res) => res.render("success"));
 
-// ===== Register/Login =====
-app.get("/register", (req, res) => {
-  res.render("register", { errorMsg: "" });
-});
-
-app.post("/register", async (req, res) => {
-  const { username, password } = req.body;
-  try {
-    const existingUser = await User.findOne({ username });
-    if (existingUser) {
-      return res.render("register", { errorMsg: "⚠️ هذا المستخدم مسجل بالفعل!" });
-    }
-
-    const user = new User({ username, password });
-    await user.save();
-
-
-    res.redirect("/login");
-  } catch (err) {
-    console.error(err);
-    res.render("register", { errorMsg: "⚠️ حدث خطأ أثناء التسجيل، حاول مرة أخرى" });
-  }
-});
-
-
-
-app.get("/login", (req, res) => {
-  res.render("login", { errorMsg: "" });
-});
-
-
-app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
-
-  try {
-    const user = await User.findOne({ username });
-
-    if (!user) {
-      return res.render("login", { 
-        errorMsg: "⚠️ هذا المستخدم غير مسجل، الرجاء التسجيل أولاً!" 
-      });
-    }
-    const match = await bcrypt.compare(password, user.password);
-
-    if (!match) {
-      return res.render("login", { 
-        errorMsg: "⚠️ كلمة المرور غير صحيحة!" 
-      });
-    }
-
-    req.session.userId = user._id;
-    res.redirect("/Members");
-
-  } catch (err) {
-    console.error(err);
-    res.render("login", { 
-      errorMsg: "⚠️ حدث خطأ أثناء تسجيل الدخول" 
-    });
-  }
-});
-
-
-
-
-app.get("/logout", (req, res) => {
-  req.session.destroy();
-  res.redirect("/login");
-});
-
 // ===== Members CRUD + Search =====
 
 // Get all members
-app.get("/Members", isAuthenticated, async (req, res) => {
+app.get("/Members", async (req, res) => {
   const members = await Member.find();
   res.render("Members", { myTitle: "Members", members });
 });
@@ -140,7 +79,7 @@ app.post("/", async (req, res) => {
 });
 
 // Delete a member by ID
-app.post("/delete/:id", isAuthenticated, async (req, res) => {
+app.post("/delete/:id", async (req, res) => {
   try {
     await Member.findByIdAndDelete(req.params.id);
     res.redirect("/Members");
@@ -151,12 +90,10 @@ app.post("/delete/:id", isAuthenticated, async (req, res) => {
 });
 
 // Search members by name
-app.get("/search", isAuthenticated, async (req, res) => {
+app.get("/search", async (req, res) => {
   try {
     const searchQuery = req.query.name;
-    const members = await Member.find({
-      name: { $regex: searchQuery, $options: "i" }
-    });
+    const members = await Member.find({ name: { $regex: searchQuery, $options: "i" } });
     res.render("Members", { myTitle: "Search Results", members });
   } catch (error) {
     console.error(error);

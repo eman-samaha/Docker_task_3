@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gym Members</title>
+    <title>Store Members</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Gym Members</h1>
+        <h1>Store Members</h1>
 
         <!-- Search Form -->
         <form id="searchForm" action="/search" method="get">
@@ -20,11 +20,10 @@
         <table>
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th>Book Name</th>
                     <th>Age</th>
                     <th>Phone</th>
-                    <th>Membership</th>
-                    <th>Start Date</th>
+                    <th>ٌRegisteration Date</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -35,7 +34,6 @@
                             <td><%= member.name %></td>
                             <td><%= member.age %></td>
                             <td><%= member.phone %></td>
-                            <td><%= member.membershipType %></td>
                             <td><%= member.startDate.toISOString().split('T')[0] %></td>
                             <td>
                                 <!-- Delete Button -->

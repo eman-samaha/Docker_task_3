@@ -1,0 +1,25 @@
+I used the Docker commands that we learned in the section.. which are :
+
+        1. docker-compose down
+        Stop all running containers from Compose and clean the default network
+
+        2. docker-compose up --build -d
+        Run the project from scratch, build the image, and start containers in the background
+
+            After running this command, I tried to run the project even though I had deleted MongoDB from my laptop, and it worked
+            here: http://localhost:3000
+
+        3. docker ps -a
+        List all containers (running and stopped) with their names and status
+
+        4. docker exec -it task3_bigdata bash
+        Enter the container to run Node commands or check files
+
+        5. docker logs -f task3_bigdata
+        Follow the container logs live
+
+        6. docker build -t my-node-app .
+        Rebuild the Node app image only without Compose if code or Dockerfile changed
+
+
+I also made the "Dockerfile" and used volumes in the "Docker Compose" to enable hot reload and keep data persistent.

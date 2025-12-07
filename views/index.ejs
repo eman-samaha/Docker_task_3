@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gym Membership Registration</title>
+    <title>Book Store Registration</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
     <div class="container">
-        <h1>Gym Membership Form</h1>
+        <h1>Book Store Form</h1>
 
         <form action="/" method="post">
-            <label for="name">Full Name</label>
+            <label for="name">Book Name</label>
             <input type="text" id="name" name="name" required />
 
             <label for="age">Age</label>
@@ -20,16 +20,19 @@
             <label for="phone">Phone Number</label>
             <input type="text" id="phone" name="phone" required />
 
-            <label for="membershipType">Membership Type</label>
+            <label for="startDate">ٌRegisteration Date</label>
+            <input type="date" id="startDate" name="startDate" required />
+
+            <label for="membershipType">Book Type</label>
             <select id="membershipType" name="membershipType" required>
                 <option value="">-- Select Type --</option>
-                <option value="Monthly">Monthly</option>
-                <option value="Quarterly">Quarterly</option>
-                <option value="Yearly">Yearly</option>
+                <option value="Monthly">Fiction</option>
+                <option value="Quarterly">Science</option>
+                <option value="Yearly">Mystery</option>
+                <option value="Yearly">Biography</option>
+                <option value="Yearly">Romance</option>
             </select>
 
-            <label for="startDate">Start Date</label>
-            <input type="date" id="startDate" name="startDate" required />
 
             <button type="submit">Submit</button>
         </form>
